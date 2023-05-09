@@ -41,6 +41,4 @@ python train_text_to_image_flax.py \
 
 mkdir -p "$OUTPUT_CONVERT_PATH"
 
-python convert_flax_pt.py fp \
-  "$OUTPUT_PATH" \
-  "$OUTPUT_CONVERT_PATH"
+python convert_flax_pt.py fp "$OUTPUT_PATH" "$OUTPUT_CONVERT_PATH"
