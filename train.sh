@@ -17,8 +17,10 @@ export OUTPUT_REMOTE_PATH="gs://aiforsure_ai/train_output/text_to_img/basil_lr5e
 export OUTPUT_LOCAL_PT_PATH="$HOME/OUTPUT/PT"
 export OUTPUT_LOCAL_FLAX_PATH="$HOME/OUTPUT/FLAX"
 # download datasets
+mkdir -p "$DATA_LOCAL_PATH"
 gsutil -m cp -r "$DATA_REMOTE_PATH" "$DATA_LOCAL_PATH"
 # download model
+mkdir -p "$MODEL_LOCAL_PATH"
 gsutil -m cp -r "$MODEL_REMOTE_PATH" "$MODEL_LOCAL_PATH"
 # setup output dir
 mkdir -p "$OUTPUT_LOCAL_PT_PATH"
