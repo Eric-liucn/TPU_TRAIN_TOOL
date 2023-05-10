@@ -1,15 +1,18 @@
 #!/bin/bash
 
 # Setup gcsfuse
-gcloud init
+cd "$HOME" || exit
+wget https://raw.githubusercontent.com/Eric-liucn/TPU_TRAIN_TOOL/main/convert_flax_pt.py
+#gcloud init
 export GCSFUSE_REPO=gcsfuse-`lsb_release -c -s`
 echo "deb https://packages.cloud.google.com/apt $GCSFUSE_REPO main" | sudo tee /etc/apt/sources.list.d/gcsfuse.list
 curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 sudo apt-get update
 sudo apt-get install fuse gcsfuse
+sudo apt-get install python3.10-venv
 gcsfuse -v
 
-gcloud auth application-default login
+#gcloud auth application-default login
 mkdir "$HOME/storage"
 gcsfuse --implicit-dirs aiforsure_ai "$HOME/storage"
 
@@ -41,4 +44,5 @@ python train_text_to_image_flax.py \
 
 mkdir -p "$OUTPUT_CONVERT_PATH"
 
+cd "$HOME" || exit
 python convert_flax_pt.py fp "$OUTPUT_PATH" "$OUTPUT_CONVERT_PATH"
