@@ -13,7 +13,7 @@ export DATA_LOCAL_PATH="$HOME/DATA"
 export MODEL_REMOTE_PATH="gs://aiforsure_ai/models/basil_mix/diffusion_model_flax/*"
 export MODEL_LOCAL_PATH="$HOME/PRETRAINED_MODEL"
 
-export OUTPUT_REMOTE_PATH="gs://aiforsure_ai/train_output/text_to_img/basil_lr5e-6_30000"
+export OUTPUT_REMOTE_PATH="gs://aiforsure_ai/train_output/text_to_img/basil_lr5e-6_100"
 export OUTPUT_LOCAL_PT_PATH="$HOME/OUTPUT/PT"
 export OUTPUT_LOCAL_FLAX_PATH="$HOME/OUTPUT/FLAX"
 # download datasets
@@ -43,10 +43,12 @@ python train_text_to_image_flax.py \
   --dataset_name="$DATA_LOCAL_PATH" \
   --resolution=512 \
   --train_batch_size=1 \
-  --max_train_steps=30000 \
+  --max_train_steps=100 \
   --learning_rate=5e-6 \
   --output_dir="$OUTPUT_LOCAL_FLAX_PATH"
 
 cd "$HOME" || exit
 python convert_flax_pt.py fp "$OUTPUT_LOCAL_FLAX_PATH" "$OUTPUT_LOCAL_PT_PATH"
 gsutil -m cp -r "$HOME/OUTPUT/*" "$OUTPUT_REMOTE_PATH"
+
+gcloud compute tpus tpu-vm delete train --zone=us-central1-b
