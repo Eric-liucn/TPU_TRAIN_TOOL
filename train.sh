@@ -36,6 +36,8 @@ pip install jax[tpu] -f https://storage.googleapis.com/jax-releases/libtpu_relea
 pip install git+https://github.com/huggingface/diffusers
 cd "$HOME/diffusers/examples/text_to_image" || exit
 pip install -r requirements_flax.txt
+pip install accelerate
+accelerate config default
 
 # Run training
 cd "$HOME/diffusers/examples/text_to_image" || exit
