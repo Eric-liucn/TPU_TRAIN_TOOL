@@ -8,8 +8,8 @@ export GCSFUSE_REPO=gcsfuse-`lsb_release -c -s`
 echo "deb https://packages.cloud.google.com/apt $GCSFUSE_REPO main" | sudo tee /etc/apt/sources.list.d/gcsfuse.list
 curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 sudo apt-get update
-sudo apt-get install fuse gcsfuse
-sudo apt-get install python3.10-venv
+sudo apt-get install -y fuse gcsfuse
+sudo apt-get install -y python3-venv
 gcsfuse -v
 
 #gcloud auth application-default login
