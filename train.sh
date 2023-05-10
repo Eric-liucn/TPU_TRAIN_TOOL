@@ -46,6 +46,7 @@ python train_text_to_image_flax.py \
   --pretrained_model_name_or_path="$MODEL_LOCAL_PATH" \
   --dataset_name="$DATA_LOCAL_PATH" \
   --resolution=512 \
+  --mixed_precision=bf16 \
   --train_batch_size=1 \
   --max_train_steps=30000 \
   --learning_rate=5e-6 \
