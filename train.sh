@@ -16,13 +16,13 @@ wget https://raw.githubusercontent.com/Eric-liucn/TPU_TRAIN_TOOL/main/convert_fl
 export DATA_REMOTE_PATH="gs://aiforsure_ai/datasets/lady/train"
 export DATA_LOCAL_PATH="$HOME/DATA"
 
-export MODEL_REMOTE_PATH="gs://aiforsure_ai/models/basil_mix/diffusion_model_flax/*"
+export MODEL_REMOTE_PATH="gs://aiforsure_ai/models/chilloutmix/diffusion_model_flax/*"
 export MODEL_LOCAL_PATH="$HOME/PRETRAINED_MODEL"
 
-export OUTPUT_REMOTE_PATH="gs://aiforsure_ai/train_output/text_to_img/basil_lr1e-5_50000"
+export OUTPUT_REMOTE_PATH="gs://aiforsure_ai/train_output/text_to_img/chill_lr1e-5_50000"
 export OUTPUT_LOCAL_PT_PATH="$HOME/OUTPUT/PT"
 export OUTPUT_LOCAL_FLAX_PATH="$HOME/OUTPUT/FLAX"
-export OUTPUT_CHECKPOINT_PATH="$HOME/OUTPUT/model.safetensors"
+export OUTPUT_CHECKPOINT_PATH="$HOME/OUTPUT/chill_lr1e-5_50000.safetensors"
 # download datasets
 mkdir -p "$DATA_LOCAL_PATH"
 gsutil -m cp -r "$DATA_REMOTE_PATH" "$DATA_LOCAL_PATH"
