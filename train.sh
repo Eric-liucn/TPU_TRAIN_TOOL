@@ -1,5 +1,11 @@
 #!/bin/bash
 
+LOGFILE="train.log"
+
+# Redirect standard output and standard error to the log file
+exec > >(tee -a ${LOGFILE} )
+exec 2> >(tee -a ${LOGFILE} >&2)
+
 # init
 cd "$HOME" || exit
 sudo apt-get update
@@ -13,9 +19,10 @@ export DATA_LOCAL_PATH="$HOME/DATA"
 export MODEL_REMOTE_PATH="gs://aiforsure_ai/models/basil_mix/diffusion_model_flax/*"
 export MODEL_LOCAL_PATH="$HOME/PRETRAINED_MODEL"
 
-export OUTPUT_REMOTE_PATH="gs://aiforsure_ai/train_output/text_to_img/basil_lr5e-6_30000"
+export OUTPUT_REMOTE_PATH="gs://aiforsure_ai/train_output/text_to_img/basil_lr1e-5_50000"
 export OUTPUT_LOCAL_PT_PATH="$HOME/OUTPUT/PT"
 export OUTPUT_LOCAL_FLAX_PATH="$HOME/OUTPUT/FLAX"
+export OUTPUT_CHECKPOINT_PATH="$HOME/OUTPUT/model.safetensors"
 # download datasets
 mkdir -p "$DATA_LOCAL_PATH"
 gsutil -m cp -r "$DATA_REMOTE_PATH" "$DATA_LOCAL_PATH"
@@ -37,6 +44,8 @@ pip install git+https://github.com/huggingface/diffusers
 cd "$HOME/diffusers/examples/text_to_image" || exit
 pip install -r requirements_flax.txt
 pip install accelerate
+pip install safetensors
+pip install omegaconf
 accelerate config default
 
 # Run training
@@ -48,12 +57,19 @@ python train_text_to_image_flax.py \
   --resolution=512 \
   --mixed_precision=bf16 \
   --train_batch_size=1 \
-  --max_train_steps=30000 \
-  --learning_rate=5e-6 \
+  --max_train_steps=50000 \
+  --learning_rate=1e-5 \
   --output_dir="$OUTPUT_LOCAL_FLAX_PATH"
 
 cd "$HOME" || exit
 python convert_flax_pt.py fp "$OUTPUT_LOCAL_FLAX_PATH" "$OUTPUT_LOCAL_PT_PATH"
+
+
+cd "$HOME/diffusers/scripts" || exit
+python convert_diffusers_to_original_stable_diffusion.py \
+  --model_path "$OUTPUT_LOCAL_PT_PATH" \
+  --checkpoint_path "$OUTPUT_CHECKPOINT_PATH" \
+  --use_safetensors
 gsutil -m cp -r "$HOME/OUTPUT/*" "$OUTPUT_REMOTE_PATH"
 
 gcloud compute tpus tpu-vm delete train --zone=us-central1-b --quiet
