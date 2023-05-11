@@ -16,13 +16,13 @@ wget https://raw.githubusercontent.com/Eric-liucn/TPU_TRAIN_TOOL/main/convert_fl
 export DATA_REMOTE_PATH="gs://aiforsure_ai/datasets/lady/train"
 export DATA_LOCAL_PATH="$HOME/DATA"
 
-export MODEL_REMOTE_PATH="gs://aiforsure_ai/models/chilloutmix/diffusion_model_flax/*"
+export MODEL_REMOTE_PATH="gs://aiforsure_ai/models/dreamlike2/diffusion_model_flax/*"
 export MODEL_LOCAL_PATH="$HOME/PRETRAINED_MODEL"
 
-export OUTPUT_REMOTE_PATH="gs://aiforsure_ai/train_output/text_to_img/chill_lr1e-5_50000"
+export OUTPUT_REMOTE_PATH="gs://aiforsure_ai/train_output/text_to_img/dreamlike2_lr1e-5_15000"
 export OUTPUT_LOCAL_PT_PATH="$HOME/OUTPUT/PT"
 export OUTPUT_LOCAL_FLAX_PATH="$HOME/OUTPUT/FLAX"
-export OUTPUT_CHECKPOINT_PATH="$HOME/OUTPUT/chill_lr1e-5_50000.safetensors"
+export OUTPUT_CHECKPOINT_PATH="$HOME/OUTPUT/dreamlike2_lr1e-5_15000.safetensors"
 # download datasets
 mkdir -p "$DATA_LOCAL_PATH"
 gsutil -m cp -r "$DATA_REMOTE_PATH" "$DATA_LOCAL_PATH"
@@ -57,7 +57,7 @@ python train_text_to_image_flax.py \
   --resolution=512 \
   --mixed_precision=bf16 \
   --train_batch_size=1 \
-  --max_train_steps=50000 \
+  --max_train_steps=15000 \
   --learning_rate=1e-5 \
   --output_dir="$OUTPUT_LOCAL_FLAX_PATH"
 
