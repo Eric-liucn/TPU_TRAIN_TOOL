@@ -1,8 +1,7 @@
 #!/bin/bash
 
 # download command comment
-# wget https://raw.githubusercontent.com/Eric-liucn/TPU_TRAIN_TOOL/main/train_dream_booth.sh && chmod +x train_dream_booth.sh && ./train_dream_booth.sh
-
+# wget https://raw.githubusercontent.com/Eric-liucn/TPU_TRAIN_TOOL/main/train_dream_booth_gpu.sh && chmod +x train_dream_booth_gpu.sh && ./train_dream_booth_gpu.sh
 cd "$HOME" || exit
 
 LOGFILE="train.log"
@@ -23,7 +22,7 @@ export INSTANCE_DATA_REMOTE_PATH="gs://aiforsure_ai/datasets/kunkun/processed"
 export CLASS_DATA_REMOTE_PATH="gs://aiforsure_ai/datasets/kunkun/class_image"
 export MODEL_NAME="stabilityai/stable-diffusion-2-1-base"
 export MODEL_FILE_NAME="stable-diffusion-2-1-base"
-export LEARNING_RATE=2e-5
+export LEARNING_RATE=5e-6
 export STEP=800
 export INSTANCE_PROMPT="a kunkun toy figure"
 export CLASS_PROMPT="a toy figure"
@@ -64,7 +63,7 @@ pip install omegaconf
 # pip install https://storage.googleapis.com/tpu-pytorch/wheels/tpuvm/torch_xla-2.0-cp38-cp38-linux_x86_64.whl
 accelerate config default
 
-python train_dreambooth.py \
+accelerate launch train_dreambooth.py \
     --pretrained_model_name_or_path="$MODEL_NAME" \
     --train_text_encoder \
     --instance_data_dir="$INSTANCE_DATA_LOCAL_PATH" \
@@ -88,4 +87,4 @@ python convert_diffusers_to_original_stable_diffusion.py \
   --use_safetensors
 
 # upload output to google cloud storage
-gsutil -m cp -r "$OUTPUT_LOCAL_PATH/*" "$OUTPUT_REMOTE_PATH"
+gsutil -m cp -r "$OUTPUT_CHECKPOINT_PATH" "$OUTPUT_REMOTE_PATH"
