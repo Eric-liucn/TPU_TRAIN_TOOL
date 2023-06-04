@@ -60,11 +60,13 @@ pip install -r requirements_flax.txt
 pip install accelerate
 pip install safetensors
 pip install omegaconf
-pip install https://storage.googleapis.com/tpu-pytorch/wheels/tpuvm/torch_xla-2.0-cp38-cp38-linux_x86_64.whl
-accelerate config
+# pip install https://storage.googleapis.com/tpu-pytorch/wheels/tpuvm/torch_xla-2.0-cp38-cp38-linux_x86_64.whl
+accelerate config default
+
+# --with_prior_preservation --prior_loss_weight=1.0 \
 
 
-accelerate launch train_dreambooth_flax.py \
+python train_dreambooth_flax.py \
     --pretrained_model_name_or_path="$MODEL_NAME" \
     --train_text_encoder \
     --instance_data_dir="$INSTANCE_DATA_LOCAL_PATH" \
