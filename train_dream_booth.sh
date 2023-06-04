@@ -31,7 +31,7 @@ export NUM_CLASS_IMAGES=150
 # no need to change these parameters
 export INSTANCE_DATA_LOCAL_PATH="$HOME/instance_data"
 export CLASS_DATA_LOCAL_PATH="$HOME/class_data"
-export OUTPUT_REMOTE_PATH="gs://aiforsure_ai/train_output/dreambooth/" + "${MODEL_NAME?}" + "_" + "${LEARNING_RATE?}" + "_" + "${STEP?}"
+export OUTPUT_REMOTE_PATH="gs://aiforsure_ai/train_output/dreambooth/"${MODEL_NAME?"MODEL_NAME"}"_"${LEARNING_RATE?"LEARNING_RATE"}"_"${STEP?"STEP"}
 export OUTPUT_LOCAL_PATH="$HOME/OUTPUT"
 export OUTPUT_LOCAL_PT_PATH="$HOME/OUTPUT/PT"
 export OUTPUT_LOCAL_FLAX_PATH="$HOME/OUTPUT/FLAX"
