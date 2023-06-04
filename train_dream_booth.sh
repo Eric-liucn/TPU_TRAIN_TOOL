@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # download command comment
-# wget https://raw.githubusercontent.com/Eric-liucn/TPU_TRAIN_TOOL/main/train_dream_booth.sh
+# wget https://raw.githubusercontent.com/Eric-liucn/TPU_TRAIN_TOOL/main/train_dream_booth.sh && chmod +x train_dream_booth.sh && ./train_dream_booth.sh
 
 cd "$HOME" || exit
 
