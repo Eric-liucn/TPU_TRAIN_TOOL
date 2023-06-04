@@ -60,10 +60,10 @@ pip install -r requirements_flax.txt
 pip install accelerate
 pip install safetensors
 pip install omegaconf
-accelerate config default
+accelerate config
 
 
-python train_dreambooth_flax.py \
+accelerate launch train_dreambooth_flax.py \
     --pretrained_model_name_or_path="$MODEL_NAME" \
     --train_text_encoder \
     --instance_data_dir="$INSTANCE_DATA_LOCAL_PATH" \
