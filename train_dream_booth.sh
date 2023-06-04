@@ -26,7 +26,7 @@ export LEARNING_RATE=2e-5
 export STEP=800
 export INSTANCE_PROMPT="a kunkun toy figure"
 export CLASS_PROMPT="a toy figure"
-export NUM_CLASS_IMAGES=150
+export NUM_CLASS_IMAGES=145
 
 # no need to change these parameters
 export INSTANCE_DATA_LOCAL_PATH="$HOME/instance_data"
@@ -38,11 +38,9 @@ export OUTPUT_LOCAL_FLAX_PATH="$HOME/OUTPUT/FLAX"
 
 # download datasets
 mkdir -p "$INSTANCE_DATA_LOCAL_PATH"
-gsutil -m cp -r "$INSTANCE_DATA_REMOTE_PATH" "$INSTANCE_DATA_LOCAL_PATH/../"
-mv "$INSTANCE_DATA_LOCAL_PATH/../processed" "$INSTANCE_DATA_LOCAL_PATH"
+gsutil -m cp -r "$INSTANCE_DATA_REMOTE_PATH/*" "$INSTANCE_DATA_LOCAL_PATH"
 mkdir -p "$CLASS_DATA_LOCAL_PATH"
-gsutil -m cp -r "$CLASS_DATA_REMOTE_PATH" "$CLASS_DATA_LOCAL_PATH/../"
-mv "$CLASS_DATA_LOCAL_PATH/../class_image" "$CLASS_DATA_LOCAL_PATH"
+gsutil -m cp -r "$CLASS_DATA_REMOTE_PATH/*" "$CLASS_DATA_LOCAL_PATH"
 
 # setup output dir
 mkdir -p "$OUTPUT_LOCAL_PATH"
