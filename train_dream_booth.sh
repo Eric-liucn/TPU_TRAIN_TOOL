@@ -74,6 +74,7 @@ accelerate launch train_dreambooth_flax.py \
     --class_prompt="$CLASS_PROMPT" \
     --resolution=512 \
     --train_batch_size=1 \
+    --mixed_precision=bf16 \
     --learning_rate="$LEARNING_RATE" \
     --num_class_images="$NUM_CLASS_IMAGES" \
     --max_train_steps="$STEP"
