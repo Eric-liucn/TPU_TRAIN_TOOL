@@ -21,7 +21,7 @@ export DATA_LOCAL_PATH="$HOME/DATA"
 export BASE_MODEL_REPO="SillyL12324/chilloutmix_flax"
 export BASE_MODEL_NAME="chilloutmix"
 export LEARNING_RATE=5e-6
-export MAX_TRAIN_STEPS=15000
+export MAX_TRAIN_STEPS=100000
 
 # setting for output
 export LOCAL_OUTPUT_PATH="$HOME/OUTPUT"
@@ -68,7 +68,7 @@ python train_text_to_image_flax.py \
 
 # convert flax to pt
 cd "$HOME" || exit
-python convert_flax_pt.py fp "$OUTPUT_LOCAL_FLAX_PATH" "$OUTPUT_LOCAL_PT_PATH"
+python convert_flax_pt.py fp "$LOCAL_OUTPUT_FLAX_PATH" "$LOCAL_OUTPUT_PT_PATH"
 
 # gen checkpoints
 cd "$HOME/diffusers/scripts" || exit
