@@ -1,4 +1,5 @@
 #!/bin/bash
+# wget https://raw.githubusercontent.com/Eric-liucn/TPU_TRAIN_TOOL/main/train.sh -O train.sh && chmod +x train.sh && ./train.sh
 
 LOGFILE="train.log"
 
@@ -7,19 +8,19 @@ exec > >(tee -a ${LOGFILE} )
 exec 2> >(tee -a ${LOGFILE} >&2)
 
 # Variables to modify
-DATA_REMOTE_PATH="gs://aiforsure_ai/datasets/lady/train"
-MODEL_REMOTE_PATH="gs://aiforsure_ai/models/dreamlike2/diffusion_model_flax/*"
-MODEL_NAME="dreamlike2"
-LEARNING_RATE=1e-5
-TRAIN_STEPS=15000
+DATA_REMOTE_PATH="gs://aiforsure_ai/datasets/baoji/train"
+MODEL_REMOTE_PATH="gs://aiforsure_ai/train_output/text_to_img/chilloutmix_lr5e-6_100000/FLAX/*"
+MODEL_NAME="chilloutmix-100k"
+LEARNING_RATE=5e-6
+NUM_TRAIN_EPOCHS=100
 
 # Other variables
 DATA_LOCAL_PATH="$HOME/DATA"
 MODEL_LOCAL_PATH="$HOME/PRETRAINED_MODEL"
 OUTPUT_LOCAL_PT_PATH="$HOME/OUTPUT/PT"
 OUTPUT_LOCAL_FLAX_PATH="$HOME/OUTPUT/FLAX"
-OUTPUT_REMOTE_PATH="gs://aiforsure_ai/train_output/text_to_img/${MODEL_NAME}_lr${LEARNING_RATE}_${TRAIN_STEPS}"
-OUTPUT_CHECKPOINT_PATH="$HOME/OUTPUT/${MODEL_NAME}_lr${LEARNING_RATE}_${TRAIN_STEPS}.safetensors"
+OUTPUT_REMOTE_PATH="gs://aiforsure_ai/train_output/text_to_img/${MODEL_NAME}_lr${LEARNING_RATE}_${NUM_TRAIN_EPOCHS}epochs"
+OUTPUT_CHECKPOINT_PATH="$HOME/OUTPUT/${MODEL_NAME}_lr${LEARNING_RATE}_${NUM_TRAIN_EPOCHS}epochs.safetensors"
 
 # Functions
 setup_environment() {
@@ -61,7 +62,7 @@ run_training() {
     --resolution=512 \
     --mixed_precision=bf16 \
     --train_batch_size=1 \
-    --max_train_steps="$TRAIN_STEPS" \
+    --num_train_epochs="$NUM_TRAIN_EPOCHS" \
     --learning_rate="$LEARNING_RATE" \
     --output_dir="$OUTPUT_LOCAL_FLAX_PATH"
 }
