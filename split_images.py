@@ -6,9 +6,12 @@ from concurrent.futures import ThreadPoolExecutor
 from functools import partial
 import threading
 import argparse
+import logging
 
 counter = 0
 counter_lock = threading.Lock()
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 
 def resize_image(image, short_side=512):
     height, width = image.shape[:2]
@@ -62,17 +65,27 @@ def process_image(image_path, input_folder, output_folder):
     global counter
     global counter_lock
 
-    image = cv2.imread(os.path.join(input_folder, image_path))
-    resized_image = resize_image(image)
-    tiles = split_image(resized_image)
+    try:
+        logging.info(f"Processing image: {image_path}")
+        image = cv2.imread(os.path.join(input_folder, image_path))
 
-    for tile in tiles:
-        with counter_lock:
-            file_number = f"{counter:08d}"
-            counter += 1
-        cv2.imwrite(os.path.join(output_folder, f"{file_number}.jpg"), tile, [cv2.IMWRITE_JPEG_QUALITY, 95])
+        if image is None:
+            logging.error(f"Error reading image {image_path}. Skipping.")
+            return
 
-def main(input_folder, output_folder, num_threads=4):
+        resized_image = resize_image(image)
+        tiles = split_image(resized_image)
+
+        for tile in tiles:
+            with counter_lock:
+                file_number = f"{counter:08d}"
+                counter += 1
+            cv2.imwrite(os.path.join(output_folder, f"{file_number}.jpg"), tile, [cv2.IMWRITE_JPEG_QUALITY, 95])
+
+    except Exception as e:
+        logging.error(f"Error processing image {image_path}: {e}")
+
+def main(input_folder, output_folder, num_threads=30):
     image_paths = [f for f in os.listdir(input_folder) if f.lower().endswith(('.jpg', '.jpeg', '.png', '.bmp', '.tiff'))]
 
     process_image_partial = partial(process_image, input_folder=input_folder, output_folder=output_folder)
