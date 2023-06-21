@@ -1,5 +1,5 @@
 #!/bin/bash
-# wget https://raw.githubusercontent.com/Eric-liucn/TPU_TRAIN_TOOL/main/train_lora.sh && chmod +x train_lora.sh && screen -S train && ./train_lora.sh
+# wget https://raw.githubusercontent.com/Eric-liucn/TPU_TRAIN_TOOL/main/train_lora.sh && chmod +x train_lora.sh && screen -S train ./train_lora.sh
 
 cd "$HOME" || exit
 
@@ -11,7 +11,7 @@ exec 2> >(tee -a ${LOGFILE} >&2)
 
 # setup environment
 sudo apt-get update
-sudo apt-get install -y wget
+sudo apt-get install -y wget, git
 sudo apt-get install -y python3-venv
 
 # Variables to modify
