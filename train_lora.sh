@@ -1,5 +1,5 @@
 #!/bin/bash
-# wget https://raw.githubusercontent.com/Eric-liucn/TPU_TRAIN_TOOL/main/train_lora.sh && chmod +x train_lora.sh && screen -S train ./train_lora.sh
+# wget https://raw.githubusercontent.com/Eric-liucn/TPU_TRAIN_TOOL/main/train_lora.sh && chmod +x train_lora.sh && screen -dmS train ./train_lora.sh
 
 cd "$HOME" || exit
 
