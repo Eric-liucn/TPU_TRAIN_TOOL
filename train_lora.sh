@@ -21,8 +21,8 @@ REMOTE_DATA_PATH="gs://aiforsure_ai/datasets/kunkun/train"
 
 # model setting
 REMOTE_MODEL_PATH=""
-HUGGINGFACE_MODEL_PATH="ram"
-MODEL_NAME="stabilityai/stable-diffusion-2-1-base"
+HUGGINGFACE_MODEL_PATH="stabilityai/stable-diffusion-2-1-base"
+MODEL_NAME="stable-diffusion-2-1-base"
 USE_HUGGINGFACE_MODEL_PATH="True"
 
 # training setting
@@ -62,7 +62,7 @@ cd "$HOME/diffusers" || exit
 python3 -m venv .env
 source .env/bin/activate
 pip install git+https://github.com/huggingface/diffusers
-cd "$HOME/diffusers/examples/research_projects/lora || exit
+cd "$HOME/diffusers/examples/research_projects/lora" || exit
 pip install -r requirements.txt
 pip install safetensors
 pip install omegaconf
