@@ -1,5 +1,5 @@
 #!/bin/bash
-# wget https://raw.githubusercontent.com/Eric-liucn/TPU_TRAIN_TOOL/main/train.sh -O train.sh && chmod +x train.sh && ./train.sh
+# wget https://raw.githubusercontent.com/Eric-liucn/TPU_TRAIN_TOOL/main/train.sh -O train.sh && chmod +x train.sh && screen -dmS train bash train.sh
 
 LOGFILE="train.log"
 
