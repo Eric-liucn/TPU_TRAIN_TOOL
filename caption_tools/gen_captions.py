@@ -9,7 +9,7 @@ from pathlib import Path
 
 # input a image, output a caption string
 def caption(processor, model, image, device, tokenizer=None) -> str:
-    inputs = processor(images=image, return_tensors="pt").to(device, torch.float16)
+    inputs = processor(images=image, return_tensors="pt").to(device)
     generated_ids = model.generate(**inputs)
     if tokenizer is not None:
         generated_caption = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
