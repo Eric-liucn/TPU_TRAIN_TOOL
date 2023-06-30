@@ -77,7 +77,7 @@ fi
 # activate caption env
 source "$HOME/caption_env/bin/activate"
 pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-pip3 install transformers
+pip3 install transformers, pillow
 
 # download caption script and do caption
 wget wget https://raw.githubusercontent.com/Eric-liucn/TPU_TRAIN_TOOL/main/caption_tools/gen_captions.py -O gen_captions.py
