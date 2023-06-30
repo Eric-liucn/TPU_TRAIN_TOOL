@@ -6,6 +6,7 @@ import torch
 import os
 import glob
 from pathlib import Path
+from tqdm import tqdm
 
 # input a image, output a caption string
 def caption(processor, model, image, device, tokenizer=None) -> str:
@@ -30,7 +31,7 @@ def get_images_need_caption(directory) -> list:
 # @param model_str: a string that specifies the model to use
 # generate caption for all images in image_paths and save the caption in a txt file with the same name as the image
 def create_captions(processor, model, image_paths, device, tokenizer=None):
-    for image_path in image_paths:
+    for image_path in tqdm(image_paths, desc="Creating captions"):
         image = Image.open(image_path)
         caption_str = caption(processor, model, image, device, tokenizer)
         caption_path = os.path.join(os.path.dirname(image_path), os.path.basename(image_path).split('.')[0] + '.txt')
