@@ -56,10 +56,10 @@ if [ ! -d "/tmp/data/reg" ]; then
   export REG_DATA_PATH=NONE
 fi
 
-find "/tmp/data/train" -type f -name {*.png,*.jpg,*.jpeg,*.txt} -exec cp {} "$TRAIN_DATA_PATH" \;
+find "/tmp/data/train" -type f \( -name "*.png" -o -name "*.jpg" -o -name "*.jpeg" -o -name "*.txt" \) -exec cp {} "$TRAIN_DATA_PATH" \;
 # if reg dir exists, copy reg data
 if [ -d "/tmp/data/reg" ]; then
-  find "/tmp/data/reg" -type f -name {*.png,*.jpg,*.jpeg,*.txt} -exec cp {} "$REG_DATA_PATH" \;
+  find "/tmp/data/reg" -type f \( -name "*.png" -o -name "*.jpg" -o -name "*.jpeg" -o -name "*.txt" \) -exec cp {} "$REG_DATA_PATH" \;
 fi
 
 # download model file
@@ -79,7 +79,8 @@ fi
 # activate caption env
 source "$HOME/caption_env/bin/activate"
 pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-pip3 install transformers, pillow
+pip3 install transformers
+pip3 install pillow
 
 # download caption script and do caption
 wget wget https://raw.githubusercontent.com/Eric-liucn/TPU_TRAIN_TOOL/main/caption_tools/gen_captions.py -O gen_captions.py

@@ -1,4 +1,4 @@
-# wget https://raw.githubusercontent.com/Eric-liucn/TPU_TRAIN_TOOL/main/caption_tools/gen_captions.py
+# wget https://github.com/Eric-liucn/TPU_TRAIN_TOOL/raw/main/caption_tools/gen_captions.py
 
 from transformers import AutoProcessor, AutoTokenizer, AutoImageProcessor, AutoModelForCausalLM, BlipForConditionalGeneration, VisionEncoderDecoderModel, Blip2Processor, Blip2ForConditionalGeneration
 from PIL import Image
@@ -8,7 +8,7 @@ import glob
 from pathlib import Path
 
 # input a image, output a caption string
-def caption(processor, model, image, tokenizer=None) -> str:
+def caption(processor, model, image, device, tokenizer=None) -> str:
     inputs = processor(images=image, return_tensors="pt").to(device, torch_dtype=torch.float16)
     generated_ids = model.generate(**inputs)
     if tokenizer is not None:
@@ -85,6 +85,6 @@ if __name__ == '__main__':
     model.to(device)
     
     image_paths = get_images_need_caption(args.data_path)
-    create_captions(processor, model, image_paths, tokenizer)
+    create_captions(processor, model, image_paths, device, tokenizer)
     
 
