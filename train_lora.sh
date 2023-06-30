@@ -31,9 +31,9 @@ export LEARNING_RATE=1e-4
 export EPOCHS=100
 export INSTANCE_PROMPT="a kunkun toy figure"
 export RESOLUTION=512
-export TRAIN_BATCH_SIZE=1
+export TRAIN_BATCH_SIZE=16
 export CHECKPOINT_STEP=500
-export LR_SCHEDULER="constant"
+export LR_SCHEDULER="cosine"
 export LR_WARMUP_STEPS=0
 
 # download dataset and model
@@ -62,6 +62,9 @@ git clone https://github.com/huggingface/diffusers.git
 cd "$HOME/diffusers" || exit
 python3 -m venv .env
 source .env/bin/activate
+
+
+
 pip install git+https://github.com/huggingface/diffusers
 cd "$HOME/diffusers/examples/research_projects/lora" || exit
 pip install -r requirements.txt
@@ -75,8 +78,8 @@ cd "$HOME/diffusers/examples/research_projects/lora" || exit
 accelerate launch --mixed_precision="fp16" train_text_to_image_lora.py \
   --pretrained_model_name_or_path="$MODEL_LOCAL_PATH" \
   --dataset_name="$DATA_LOCAL_PATH" \
-  --caption_column="text" \
-  --resolution="$RESOLUTION" \
+  --dataloader_num_workers=8 \
+  --resolution="$RESOLUTION" --random_flip \
   --train_batch_size="$TRAIN_BATCH_SIZE" \
   --num_train_epochs="$EPOCHS" \
   --checkpointing_steps="$CHECKPOINT_STEP" \
@@ -84,7 +87,6 @@ accelerate launch --mixed_precision="fp16" train_text_to_image_lora.py \
   --lr_scheduler="$LR_SCHEDULER" \
   --lr_warmup_steps="$LR_WARMUP_STEPS" \
   --output_dir="$OUTPUT_DIR" \
-  --use_peft \
   --lora_r=4 \
   --lora_alpha=32 \
   --lora_text_encoder_r=4 \
