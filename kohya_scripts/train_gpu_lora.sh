@@ -1,4 +1,5 @@
 #!/bin/ssh
+# wget https://raw.githubusercontent.com/Eric-liucn/TPU_TRAIN_TOOL/main/kohta_scripts/train_gpu_lora.sh && chmod +x train_gpu_lora.sh && screen -S train ./train_gpu_lora.sh
 
 # settings
 export OUTPUT_NAME="haname"
