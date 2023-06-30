@@ -29,10 +29,10 @@ def get_images_need_caption(directory) -> list:
 # @param image_paths: a list of image paths
 # @param model_str: a string that specifies the model to use
 # generate caption for all images in image_paths and save the caption in a txt file with the same name as the image
-def create_captions(processor, model, image_paths, tokenizer=None):
+def create_captions(processor, model, image_paths, device, tokenizer=None):
     for image_path in image_paths:
         image = Image.open(image_path)
-        caption_str = caption(processor, model, image, tokenizer)
+        caption_str = caption(processor, model, image, device, tokenizer)
         caption_path = os.path.join(os.path.dirname(image_path), os.path.basename(image_path).split('.')[0] + '.txt')
         with open(caption_path, 'w') as f:
             f.write(caption_str)
