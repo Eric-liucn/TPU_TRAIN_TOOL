@@ -58,18 +58,23 @@ if __name__ == '__main__':
     if args.model_str == 'git_large_coco':
         processor = AutoProcessor.from_pretrained("microsoft/git-large-coco")
         model = AutoModelForCausalLM.from_pretrained("microsoft/git-large-coco")
+        tokenizer = None
     elif args.model_str == 'git_large_textcaps':
         processor = AutoProcessor.from_pretrained("microsoft/git-large-textcaps")
         model = AutoModelForCausalLM.from_pretrained("microsoft/git-large-textcaps")
+        tokenizer = None
     elif args.model_str == 'blip_base':
         processor = AutoProcessor.from_pretrained("Salesforce/blip-image-captioning-base")
         model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base")
+        tokenizer = None
     elif args.model_str == 'blip_large':
         processor = AutoProcessor.from_pretrained("Salesforce/blip-image-captioning-large")
         model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-large")
+        tokenizer = None
     elif args.model_str == 'blip2':
         processor=Blip2Processor.from_pretrained("Salesforce/blip2-opt-6.7b")
         model=Blip2ForConditionalGeneration.from_pretrained("Salesforce/blip2-opt-6.7b", torch_dtype=torch.float16)
+        tokenizer = None
     elif args.model_str == 'vitgpt':
         processor = AutoImageProcessor.from_pretrained("nlpconnect/vit-gpt2-image-captioning")
         model = VisionEncoderDecoderModel.from_pretrained("nlpconnect/vit-gpt2-image-captioning")
