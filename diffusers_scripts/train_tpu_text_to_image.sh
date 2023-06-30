@@ -77,3 +77,4 @@ python convert_diffusers_to_original_stable_diffusion.py \
   --checkpoint_path "$LOCAL_CHECKPOINT_PATH" \
   --use_safetensors
 gsutil -m cp -r "$HOME/OUTPUT/*" "$REMOTE_OUTPUT_PATH"
+
