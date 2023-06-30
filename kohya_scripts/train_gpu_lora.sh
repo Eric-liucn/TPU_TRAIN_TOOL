@@ -2,10 +2,10 @@
 # wget https://raw.githubusercontent.com/Eric-liucn/TPU_TRAIN_TOOL/main/kohta_scripts/train_gpu_lora.sh && chmod +x train_gpu_lora.sh && screen -S train ./train_gpu_lora.sh
 
 # settings
-export OUTPUT_NAME="haname"
-export DATA_REMOTE_PATH="gs://aiforsure_ai/datasets/test/data.zip"
+export OUTPUT_NAME="haneame"
+export DATA_REMOTE_PATH="gs://aiforsure_ai/zip_datasets/haneame.zip"
 export CAPTION_METHOD="blip_large" # git_large_coco, git_large_textcaps, blip_base, blip_large, blip2, vitgpt
-export MODEL_REMOTE_PATH="gs://aiforsure_ai/models/test/model.safetensors"
+export MODEL_REMOTE_PATH="gs://aiforsure_ai/train_output/text_to_img/chilloutmix-100k_lr5e-6_100epochs/chilloutmix-100k_lr5e-6_100epochs.safetensors"
 export TRAIN_BATCH_SIZE=1
 export MAX_TRAIN_EPOCHS=100
 export LEARNING_RATE=1e-4
@@ -53,6 +53,7 @@ fi
 # check if reg dir exists, if not exit warning
 if [ ! -d "/tmp/data/reg" ]; then
   echo "reg dir not exists, will not use reg data"
+  export REG_DATA_PATH=NONE
 fi
 
 find "/tmp/data/train" -type f -name {*.png,*.jpg,*.jpeg,*.txt} -exec cp {} "$TRAIN_DATA_PATH" \;
@@ -123,7 +124,7 @@ COMMAND="$COMMAND --train_data_dir=\"$TRAIN_DATA_PATH\" "
 COMMAND="$COMMAND --caption_extension=\".txt\" "
 COMMAND="$COMMAND --resolution=\"$RESOLUTION\" "
 COMMAND="$COMMAND --cache_latents_to_disk "
-if [ -n "$REG_DATA_PATH" ]; then
+if [ "$REG_DATA_PATH" != NONE ]; then
     COMMAND="$COMMAND --reg_data_dir=\"$REG_DATA_PATH\" "
 fi
 COMMAND="$COMMAND --dataset_repeats=\"$DATASET_REPEATS\" "
