@@ -1,5 +1,5 @@
 #!/bin/bash
-# wget https://raw.githubusercontent.com/Eric-liucn/TPU_TRAIN_TOOL/main/train_lora.sh && chmod +x train_lora.sh && screen -dmS train . train_lora.sh
+# wget https://raw.githubusercontent.com/Eric-liucn/TPU_TRAIN_TOOL/main/train_lora.sh && chmod +x train_lora.sh && screen -dmS train ./train_lora.sh
 
 cd "$HOME" || exit
 
@@ -62,16 +62,12 @@ git clone https://github.com/huggingface/diffusers.git
 cd "$HOME/diffusers" || exit
 python3 -m venv .env
 source .env/bin/activate
-
-
-
 pip install git+https://github.com/huggingface/diffusers
+pip install torch==1.13.1+cu116 torchvision==0.14.1+cu116 torchaudio==0.13.1 --extra-index-url https://download.pytorch.org/whl/cu116
 cd "$HOME/diffusers/examples/research_projects/lora" || exit
 pip install -r requirements.txt
-pip install safetensors
-pip install omegaconf
 pip install accelerate
-accelerate config 
+accelerate config
 
 # training
 cd "$HOME/diffusers/examples/research_projects/lora" || exit
@@ -91,5 +87,6 @@ accelerate launch --mixed_precision="fp16" train_text_to_image_lora.py \
   --lora_alpha=32 \
   --lora_text_encoder_r=4 \
   --lora_text_encoder_alpha=32
+
 
 
