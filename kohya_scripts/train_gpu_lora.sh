@@ -1,6 +1,12 @@
 #!/bin/ssh
 # wget https://github.com/Eric-liucn/TPU_TRAIN_TOOL/raw/main/kohya_scripts/train_gpu_lora.sh && chmod +x train_gpu_lora.sh && screen -S train ./train_gpu_lora.sh
 
+# install some packages
+sudo apt-get update
+sudo apt-get install -y git
+sudo apt-get install -y python3-venv
+sudo apt-get install -y screen
+
 # settings
 export OUTPUT_NAME="haneame"
 export DATA_REMOTE_PATH="gs://aiforsure_ai/zip_datasets/haneame.zip"
@@ -35,7 +41,6 @@ export NETWORK_MODULE="networks.lora"
 
 # create dirs and download data and model
 mkdir -p "$DATA_PATH"
-mkdir -p "$TRAIN_DATA_PATH"
 mkdir -p "$REG_DATA_PATH"
 mkdir -p "$OUTPUT_PATH"
 
