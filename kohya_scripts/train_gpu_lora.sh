@@ -13,7 +13,6 @@ export LR_SCHEDULER="cosine" # linear, cosine, cosine_with_restarts, polynomial,
 
 export V2_MODEL=FALSE
 export RESOLUTION=512
-export DATASET_REPEATS=1
 export SAVE_PRECISION="fp16"
 export SAVE_EVERY_N_EPOCHS=10
 export MEM_EFF_ATTN=FALSE
@@ -29,8 +28,7 @@ export SAVE_MODEL_AS="safetensors"
 
 # default settings
 export DATA_PATH="$HOME/DATA"
-export TRAIN_DATA_PATH="$DATA_PATH/train"
-export REG_DATA_PATH="$DATA_PATH/reg"
+export REG_DATA_PATH="$HOME/REG_DATA"
 export OUTPUT_PATH="$HOME/OUTPUT"
 export MODEL_PATH="$HOME/MODEL/model.safetensors"
 export NETWORK_MODULE="networks.lora"
@@ -40,29 +38,24 @@ mkdir -p "$DATA_PATH"
 mkdir -p "$TRAIN_DATA_PATH"
 mkdir -p "$REG_DATA_PATH"
 mkdir -p "$OUTPUT_PATH"
-mkdir -p "$MODEL_PATH"
 
 # first download data file and extract, copy all images(.png, .jpg, .jpeg) and txt(.txt) files to $DATA_PATH
 gsutil -m cp "$DATA_REMOTE_PATH" "/tmp/data.zip"
 unzip "/tmp/data.zip" -d "/tmp/data"
-# check if train dir exists, if not exit with error
-if [ ! -d "/tmp/data/train" ]; then
-  echo "train dir not exists"
-  exit 1
-fi
+
 # check if reg dir exists, if not exit warning
 if [ ! -d "/tmp/data/reg" ]; then
   echo "reg dir not exists, will not use reg data"
-  export REG_DATA_PATH=NONE
-fi
-
-find "/tmp/data/train" -type f \( -name "*.png" -o -name "*.jpg" -o -name "*.jpeg" -o -name "*.txt" \) -exec cp {} "$TRAIN_DATA_PATH" \;
-# if reg dir exists, copy reg data
-if [ -d "/tmp/data/reg" ]; then
+  export REG_DATA_PATH=FALSE
+else
+  echo "reg dir exists, will use reg data"
   find "/tmp/data/reg" -type f \( -name "*.png" -o -name "*.jpg" -o -name "*.jpeg" -o -name "*.txt" \) -exec cp {} "$REG_DATA_PATH" \;
 fi
 
-# download model file
+# copy all sub directories in /tmp/data exclude 'reg' to $DATA_PATH
+find "/tmp/data" -mindepth 1 -maxdepth 1 -type d ! -name "reg" -exec cp -r {} "$DATA_PATH" \;
+
+# download model file to data folder
 gsutil -m cp "$MODEL_REMOTE_PATH" "$MODEL_PATH"
 
 # prepare caption env
@@ -78,7 +71,7 @@ fi
 
 # activate caption env
 source "$HOME/caption_env/bin/activate"
-pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+pip3 install torch==1.12.1+cu116 torchvision==0.13.1+cu116 torchaudio==0.12.1 --extra-index-url https://download.pytorch.org/whl/cu116
 pip3 install transformers
 pip3 install pillow
 pip3 install tqdm
@@ -99,7 +92,7 @@ fi
 
 # create train env and install requirments
 cd "$HOME/sd-scripts" || exit
-if [ ! -d "$HOME/train_env" ]; then
+if [ ! -d "$HOME/sd-scripts/train_env" ]; then
   python3 -m venv train_env
 else
   rm -rf train_env
@@ -107,9 +100,11 @@ else
 fi
 
 # activate train env
-source "$HOME/train_env/bin/activate"
-pip3 install -r requirements.txt
-accelerate config default
+source "$HOME/sd-scripts/train_env/bin/activate"
+pip3 install torch==1.12.1+cu116 torchvision==0.13.1+cu116 torchaudio==0.12.1 --extra-index-url https://download.pytorch.org/whl/cu116
+pip3 install --upgrade -r requirements.txt
+pip3 install -U -I --no-deps https://github.com/C43H66N12O12S2/stable-diffusion-webui/releases/download/linux/xformers-0.0.14.dev0-cp310-cp310-linux_x86_64.whl
+accelerate config
 
 # train model
 # if V2_MODEL is TRUE, add --v2, else not add
@@ -126,13 +121,13 @@ COMMAND="$COMMAND --train_data_dir=\"$TRAIN_DATA_PATH\" "
 COMMAND="$COMMAND --caption_extension=\".txt\" "
 COMMAND="$COMMAND --resolution=\"$RESOLUTION\" "
 COMMAND="$COMMAND --cache_latents_to_disk "
-if [ "$REG_DATA_PATH" != NONE ]; then
+if [ "$REG_DATA_PATH" != FALSE ]; then
     COMMAND="$COMMAND --reg_data_dir=\"$REG_DATA_PATH\" "
 fi
 COMMAND="$COMMAND --dataset_repeats=\"$DATASET_REPEATS\" "
 COMMAND="$COMMAND --save_precision=\"$SAVE_PRECISION\" "
 COMMAND="$COMMAND --save_every_n_epochs=\"$SAVE_EVERY_N_EPOCHS\" "
-COMMAND="$COMMAND --batch_size=\"$TRAIN_BATCH_SIZE\" "
+COMMAND="$COMMAND --train_batch_size=\"$TRAIN_BATCH_SIZE\" "
 if [ "$MEM_EFF_ATTN" = TRUE ]; then
     COMMAND="$COMMAND --mem_eff_attn "
 fi
@@ -143,7 +138,7 @@ fi
 if [ "$VAE" != FALSE ]; then
     COMMAND="$COMMAND --vae=\"$VAE\" "
 fi
-COMMAND="$COMMAND --max_epochs=\"$MAX_TRAIN_EPOCHS\" "
+COMMAND="$COMMAND --max_train_epochs=\"$MAX_TRAIN_EPOCHS\" "
 COMMAND="$COMMAND --max_data_loader_n_workers=\"$MAX_DATA_LOADER_N_WORKERS\" "
 if [ "$GRADIENT_CHECKPOINTING" = TRUE ]; then
     COMMAND="$COMMAND --gradient_checkpointing "
@@ -151,7 +146,7 @@ fi
 if [ "$GRADIENT_CHECKPOINTING" = TRUE ]; then
     COMMAND="$COMMAND --gradient_accumulation_steps=\"$GRADIENT_ACCUMULATION_STEPS\" "
 fi
-if [ !"$MIXED_PRECISION" = "FALSE" ]; then
+if [ "$MIXED_PRECISION" != "FALSE" ]; then
     COMMAND="$COMMAND --mixed_precision=\"$MIXED_PRECISION\" "
 fi
 if [ "$USE_8BIT_ADAM" = TRUE ]; then
@@ -162,10 +157,13 @@ COMMAND="$COMMAND --lr_scheduler=\"$LR_SCHEDULER\" "
 if [ "$LR_WARMUP_STEPS" != 0 ]; then
     COMMAND="$COMMAND --lr_warmup_steps=\"$LR_WARMUP_STEPS\" "
 fi
-COMMAND="$COMMAND --SAVE_MODEL_AS=\"$SAVE_MODEL_AS\" "
+COMMAND="$COMMAND --save_model_as=\"$SAVE_MODEL_AS\" "
 COMMAND="$COMMAND --network_module=\"$NETWORK_MODULE\" "
 COMMAND="$COMMAND --output_dir=\"$OUTPUT_PATH\" "
 COMMAND="$COMMAND --output_name=\"$OUTPUT_NAME\" "
+
+# run command
+eval "$COMMAND"
 
 
 
