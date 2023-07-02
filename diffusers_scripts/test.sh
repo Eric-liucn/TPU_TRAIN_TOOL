@@ -37,7 +37,7 @@ export PRIOR_GENERATION_PRECISION="fp32"
 # Directories and paths
 export WORK_DIR="$HOME/JOBS/$JOB_ID"
 export DATA_DIR="$WORK_DIR/data"
-export REG_DATA_DIR="$DATA_DIR/reg"
+export REG_DATA_DIR="$WORK/reg"
 export OUTPUT_DIR="$WORK_DIR/output"
 export CHECKPOINT_PATH="$OUTPUT_DIR/$JOB_ID.safetensors"
 export REMOTE_CHECKPOINT_PATH="gs://aiforsure_ai/train_output/dreambooth_lora/"$MODEL"_"$LEARING_RATE"_"$NUM_TRAIN_EPOCHS"/"$JOB_ID".safetensors"
