@@ -12,7 +12,7 @@ sudo apt-get install -y unzip
 export OUTPUT_NAME="jjj"
 export DATA_REMOTE_PATH="gs://aiforsure_ai/zip_datasets/jjj.zip"
 export CAPTION_METHOD="blip_large" # git_large_coco, git_large_textcaps, blip_base, blip_large, blip2, vitgpt
-export MODEL_REMOTE_PATH="gs://aiforsure_ai/train_output/text_to_img/chilloutmix-100k_lr5e-6_100epochs/chilloutmix-100k_lr5e-6_100epochs.safetensors"
+export MODEL_REMOTE_PATH="gs://aiforsure_ai/models/chilloutmix/chilloutmix_NiPrunedFp32Fix.safetensors"
 export TRAIN_BATCH_SIZE=1
 export MAX_TRAIN_EPOCHS=100
 export LEARNING_RATE=1e-4
