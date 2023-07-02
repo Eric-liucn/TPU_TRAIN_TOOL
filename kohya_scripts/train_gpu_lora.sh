@@ -22,7 +22,7 @@ export RESOLUTION=512
 export SAVE_PRECISION="fp16"
 export SAVE_EVERY_N_EPOCHS=10
 export MEM_EFF_ATTN=FALSE
-export XFORMERS=TRUE
+export XFORMERS=FALSE
 export VAE=FALSE
 export MAX_DATA_LOADER_N_WORKERS=4
 export GRADIENT_CHECKPOINTING=TRUE
@@ -82,7 +82,7 @@ pip3 install pillow
 pip3 install tqdm
 
 # download caption script and do caption
-wget wget https://raw.githubusercontent.com/Eric-liucn/TPU_TRAIN_TOOL/main/caption_tools/gen_captions.py -O gen_captions.py
+wget wget https://github.com/Eric-liucn/TPU_TRAIN_TOOL/raw/main/caption_tools/gen_captions.py -O gen_captions.py
 python3 gen_captions.py --data_path="$DATA_PATH" --model_str="$CAPTION_METHOD"
 deactivate
 
@@ -122,14 +122,13 @@ if [ "$V2_MODEL" = TRUE ]; then
     COMMAND="$COMMAND --v2 "
 fi
 COMMAND="$COMMAND --pretrained_model_name_or_path=\"$MODEL_PATH\" "
-COMMAND="$COMMAND --train_data_dir=\"$TRAIN_DATA_PATH\" "
+COMMAND="$COMMAND --train_data_dir=\"$DATA_PATH\" "
 COMMAND="$COMMAND --caption_extension=\".txt\" "
 COMMAND="$COMMAND --resolution=\"$RESOLUTION\" "
 COMMAND="$COMMAND --cache_latents_to_disk "
 if [ "$REG_DATA_PATH" != FALSE ]; then
     COMMAND="$COMMAND --reg_data_dir=\"$REG_DATA_PATH\" "
 fi
-COMMAND="$COMMAND --dataset_repeats=\"$DATASET_REPEATS\" "
 COMMAND="$COMMAND --save_precision=\"$SAVE_PRECISION\" "
 COMMAND="$COMMAND --save_every_n_epochs=\"$SAVE_EVERY_N_EPOCHS\" "
 COMMAND="$COMMAND --train_batch_size=\"$TRAIN_BATCH_SIZE\" "
