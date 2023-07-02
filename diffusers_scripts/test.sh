@@ -91,9 +91,9 @@ source "$HOME/diffusers/.env/bin/activate"
 
 # Construct command
 COMMAND="accelerate launch $SCRIPT_PATH "
-COMMAND+="--pretrained_model_name_or_path=$BASE_MODEL "
-COMMAND+="--instance_data_dir=$DATA_DIR "
-COMMAND+="--reg_data_dir=$REG_DATA_DIR "
+COMMAND+="--pretrained_model_name_or_path=\"$BASE_MODEL\" "
+COMMAND+="--instance_data_dir=\"$DATA_DIR\" "
+COMMAND+="--reg_data_dir=\"$REG_DATA_DIR\" "
 COMMAND+="--instance_prompt=\"$INSTANCE_PROMPT\" "
 COMMAND+="--class_prompt=\"$CLASS_PROMPT\" "
 if [ "$WITH_PRIOR_PRESERVATION" = "TRUE" ]; then
