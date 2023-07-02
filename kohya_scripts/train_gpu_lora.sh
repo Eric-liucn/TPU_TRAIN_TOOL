@@ -1,4 +1,4 @@
-#!/bin/ssh
+#!/bin/bash
 # wget https://github.com/Eric-liucn/TPU_TRAIN_TOOL/raw/main/kohya_scripts/train_gpu_lora.sh && chmod +x train_gpu_lora.sh && screen -S train ./train_gpu_lora.sh
 
 # install some packages
