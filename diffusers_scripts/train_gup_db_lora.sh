@@ -15,7 +15,7 @@ export LR_SCHEDULER="constant"
 export MIXED_PRECISION="fp16"
 export ENABLE_XFORMERS=TRUE
 
-
+# unfrequntly changed settings
 export WITH_PRIOR_PRESERVATION=TRUE
 export PRIOR_LOSS_WEIGHT=1.0
 export NUM_CLASS_IMAGES=100
@@ -196,11 +196,4 @@ python3 $CONVERT_SCRIPT_PATH \
 	--checkpoint_path="$CHECKPOINT_PATH" \
 	--use_safetensors
 
-
-
-
-
-
-
-
-
+deactivate
