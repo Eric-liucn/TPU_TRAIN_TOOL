@@ -39,8 +39,8 @@ export WORK_DIR="$HOME/JOBS/$JOB_ID"
 export DATA_DIR="$WORK_DIR/data"
 export REG_DATA_DIR="$DATA_DIR/reg"
 export OUTPUT_DIR="$WORK_DIR/output"
-export CHECKPOINT_PATH="$OUTPUT_DIR/{$JOB_ID}.safetensors"
-export REMOTE_CHECKPOINT_PATH="gs://aiforsure_ai/train_output/dreambooth_lora/{$MODEL}_{$LEARING_RATE}_{$NUM_TRAIN_EPOCHS}/{$JOB_ID}.safetensors"
+export CHECKPOINT_PATH="$OUTPUT_DIR/$JOB_ID.safetensors"
+export REMOTE_CHECKPOINT_PATH="gs://aiforsure_ai/train_output/dreambooth_lora/"$MODEL"_"$LEARING_RATE"_"$NUM_TRAIN_EPOCHS"/"$JOB_ID".safetensors"
 export SCRIPT_PATH="$HOME/diffusers/examples/dreambooth/train_dreambooth_lora.py"
 export CONVERT_SCRIPT_PATH="$HOME//diffusers/scripts/convert_diffusers_to_original_stable_diffusion.py"
 
@@ -139,6 +139,7 @@ fi
 
 
 # Run training
+echo "$COMMAND"
 eval "$COMMAND"
 
 # Convert safetensors to original stable diffusion model
