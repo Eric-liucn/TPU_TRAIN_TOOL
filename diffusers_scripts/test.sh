@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# wget https://github.com/Eric-liucn/TPU_TRAIN_TOOL/raw/main/diffusers_scripts/test.sh && chmod +x test.sh && ./test.sh
+
 # Settings
 export JOB_ID="000001"
 export MODEL="chilloutmix_100ep"
@@ -40,7 +42,7 @@ export OUTPUT_DIR="$WORK_DIR/output"
 export CHECKPOINT_PATH="$OUTPUT_DIR/{$JOB_ID}.safetensors"
 export REMOTE_CHECKPOINT_PATH="gs://aiforsure_ai/train_output/dreambooth_lora/{$MODEL}_{$LEARING_RATE}_{$NUM_TRAIN_EPOCHS}/{$JOB_ID}.safetensors"
 export SCRIPT_PATH="$HOME/diffusers/examples/dreambooth/train_dreambooth_lora.py"
-export CONVERT_SCRIPT_PATH="$HOME/scripts/convert_diffusers_to_original_stable_diffusion.py"
+export CONVERT_SCRIPT_PATH="$HOME//diffusers/scripts/convert_diffusers_to_original_stable_diffusion.py"
 
 # Set BASE_MODEL according to MODEL
 case "$MODEL" in
@@ -94,8 +96,8 @@ COMMAND+="--instance_data_dir=$DATA_DIR "
 if [ "$(ls -A $REG_DATA_DIR)" ]; then
     COMMAND+="--reg_data_dir=$REG_DATA_DIR "
 fi
-COMMAND+="--instance_prompt=$INSTANCE_PROMPT "
-COMMAND+="--class_prompt=$CLASS_PROMPT "
+COMMAND+="--instance_prompt=\"$INSTANCE_PROMPT\" "
+COMMAND+="--class_prompt=\"$CLASS_PROMPT\" "
 if [ "$WITH_PRIOR_PRESERVATION" = "TRUE" ]; then
     COMMAND+="--with_prior_preservation "
     COMMAND+="--prior_loss_weight=$PRIOR_LOSS_WEIGHT "
