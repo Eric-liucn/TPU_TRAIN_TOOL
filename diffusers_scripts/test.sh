@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# wget https://github.com/Eric-liucn/TPU_TRAIN_TOOL/raw/main/diffusers_scripts/test.sh && chmod +x test.sh && ./test.sh
+# wget --no-cache https://github.com/Eric-liucn/TPU_TRAIN_TOOL/raw/main/diffusers_scripts/test.sh && chmod +x test.sh && ./test.sh
 
 # Settings
 export JOB_ID="000001"
