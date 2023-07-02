@@ -6,10 +6,11 @@ sudo apt-get update
 sudo apt-get install -y git
 sudo apt-get install -y python3-venv
 sudo apt-get install -y screen
+sudo apt-get install -y unzip
 
 # settings
-export OUTPUT_NAME="haneame"
-export DATA_REMOTE_PATH="gs://aiforsure_ai/zip_datasets/haneame.zip"
+export OUTPUT_NAME="jjj"
+export DATA_REMOTE_PATH="gs://aiforsure_ai/zip_datasets/jjj.zip"
 export CAPTION_METHOD="blip_large" # git_large_coco, git_large_textcaps, blip_base, blip_large, blip2, vitgpt
 export MODEL_REMOTE_PATH="gs://aiforsure_ai/train_output/text_to_img/chilloutmix-100k_lr5e-6_100epochs/chilloutmix-100k_lr5e-6_100epochs.safetensors"
 export TRAIN_BATCH_SIZE=1
