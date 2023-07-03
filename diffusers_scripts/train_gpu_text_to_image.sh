@@ -64,7 +64,7 @@ export CHECKPOINT_PATH="$OUTPUT_PATH/$CHECKPOINT_NAME"
 if [ "$ONLY_TRAIN" == "FALSE" ]; then
   # download datasets
   mkdir -p "$DATA_PATH"
-  gsutil -m cp -r "$REMOTE_DATA_PATH/*" "$DATA_PATH"
+  gsutil -m cp -r -n "$REMOTE_DATA_PATH/*" "$DATA_PATH"
 
   # setup output dir
   mkdir -p "$OUTPUT_PATH"
