@@ -81,10 +81,9 @@ if [ "$ONLY_TRAIN" == "FALSE" ]; then
   python3 -m venv .env
   source .env/bin/activate
   pip install jax[tpu] -f https://storage.googleapis.com/jax-releases/libtpu_releases.html
-	pip install torch_xla
   pip install git+https://github.com/huggingface/diffusers
   cd "$HOME/diffusers/examples/text_to_image" || exit
-  pip install -r requirements.txt
+  pip install -r requirements_flax.txt
   pip install accelerate
   pip install safetensors
   pip install omegaconf
@@ -98,7 +97,7 @@ fi
 cd "$HOME/diffusers/examples/text_to_image" || exit
 
 # construct command
-COMMAND="accelerate launch train_text_to_image.py "
+COMMAND="accelerate launch train_text_to_image_flax.py "
 # --pretrained_model_name_or_path
 COMMAND="$COMMAND--pretrained_model_name_or_path=\"$MODEL_PATH\" "
 # --dataset_name
