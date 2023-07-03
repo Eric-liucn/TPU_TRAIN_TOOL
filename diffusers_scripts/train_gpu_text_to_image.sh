@@ -55,6 +55,7 @@ export MAX_GRAD_NORM=1
 export CHECKPOINTING_STEPS=10000
 export CHECKPOINTS_TOTAL_LIMIT=5
 export NOISE_OFFSET=0
+export RESUME_CHECKPOINT_PATH=""
 
 # default setting
 export DATA_PATH="$HOME/DATA"
@@ -92,95 +93,95 @@ fi
 cd "$HOME/diffusers/examples/text_to_image" || exit
 
 # construct command
-COMMAND = "accelerate launch train_text_to_image.py "
+COMMAND="accelerate launch train_text_to_image.py "
 # --pretrained_model_name_or_path
-COMMAND += "--pretrained_model_name_or_path=\"$MODEL_PATH\" "
+COMMAND="$COMMAND--pretrained_model_name_or_path=\"$MODEL_PATH\" "
 # --dataset_name
-COMMAND += "--dataset_name=\"$DATA_PATH\" "
+COMMAND="$COMMAND--dataset_name=\"$DATA_PATH\" "
 # --output_dir
-COMMAND += "--output_dir=\"$OUTPUT_PATH\" "
+COMMAND="$COMMAND--output_dir=\"$OUTPUT_PATH\" "
 # --resolution
-COMMAND += "--resolution=$RESOLUTION "
+COMMAND="$COMMAND--resolution=$RESOLUTION "
 # --train_batch_size
-COMMAND += "--train_batch_size=$TRAIN_BATCH_SIZE "
+COMMAND="$COMMAND--train_batch_size=$TRAIN_BATCH_SIZE "
 # --num_train_epochs
-COMMAND += "--num_train_epochs=$NUM_TRAIN_EPOCHS "
+COMMAND="$COMMAND--num_train_epochs=$NUM_TRAIN_EPOCHS "
 # --gradient_accumulation_steps
-COMMAND += "--gradient_accumulation_steps=$GRADIENT_ACCUMULATION_STEPS "
+COMMAND="$COMMAND--gradient_accumulation_steps=$GRADIENT_ACCUMULATION_STEPS "
 # --gradient_checkpointing
 if [ "$GRADIENT_CHECKPOINTING" = "TRUE" ]; then
-  COMMAND += "--gradient_checkpointing "
+  COMMAND="$COMMAND--gradient_checkpointing "
 fi
 # --learning_rate
-COMMAND += "--learning_rate=$LEARNING_RATE "
+COMMAND="$COMMAND--learning_rate=$LEARNING_RATE "
 # --scale_lr
 if [ "$SCALE_LR" = "TRUE" ]; then
-  COMMAND += "--scale_lr "
+  COMMAND="$COMMAND--scale_lr "
 fi
 # --lr_scheduler
-COMMAND += "--lr_scheduler=$LR_SCHEDULER "
+COMMAND="$COMMAND--lr_scheduler=$LR_SCHEDULER "
 # --lr_warmup_steps
-COMMAND += "--lr_warmup_steps=$LR_WARMUP_STEPS "
+COMMAND="$COMMAND--lr_warmup_steps=$LR_WARMUP_STEPS "
 # --snr_gamma
 if [ "$SNR_GAMMA" != "FALSE" ]; then
-  COMMAND += "--snr_gamma=$SNR_GAMMA "
+  COMMAND="$COMMAND--snr_gamma=$SNR_GAMMA "
 fi
 # --use_8bit_adam
 if [ "$USE_8BIT_ADAM" = "TRUE" ]; then
-  COMMAND += "--use_8bit_adam "
+  COMMAND="$COMMAND--use_8bit_adam "
 fi
 # --allow_tf32
 if [ "$ALLOW_TF32" = "TRUE" ]; then
-  COMMAND += "--allow_tf32 "
+  COMMAND="$COMMAND--allow_tf32 "
 fi
 # --use_ema
 if [ "$USE_EMA" = "TRUE" ]; then
-  COMMAND += "--use_ema "
+  COMMAND="$COMMAND--use_ema "
 fi
 # --dataloader_num_workers
-COMMAND += "--dataloader_num_workers=$DATALOADER_NUM_WORKERS "
+COMMAND="$COMMAND--dataloader_num_workers=$DATALOADER_NUM_WORKERS "
 # --adam_beta1
 if [ "USE_8BIT_ADAM" = "TRUE" ]; then
-  COMMAND += "--adam_beta1=$ADAM_BETA1 "
+  COMMAND="$COMMAND--adam_beta1=$ADAM_BETA1 "
 fi
 # --adam_beta2
 if [ "USE_8BIT_ADAM" = "TRUE" ]; then
-  COMMAND += "--adam_beta2=$ADAM_BETA2 "
+  COMMAND="$COMMAND--adam_beta2=$ADAM_BETA2 "
 fi
 # --adam_weight_decay
 if [ "USE_8BIT_ADAM" = "TRUE" ]; then
-  COMMAND += "--adam_weight_decay=$ADAM_WEIGHT_DECAY "
+  COMMAND="$COMMAND--adam_weight_decay=$ADAM_WEIGHT_DECAY "
 fi
 # --adam_epsilon
 if [ "USE_8BIT_ADAM" = "TRUE" ]; then
-  COMMAND += "--adam_epsilon=$ADAM_EPSILON "
+  COMMAND="$COMMAND--adam_epsilon=$ADAM_EPSILON "
 fi
 # --max_grad_norm
-COMMAND += "--max_grad_norm=$MAX_GRAD_NORM "
+COMMAND="$COMMAND--max_grad_norm=$MAX_GRAD_NORM "
 # --mixed_precision
 if [ "$MIXED_PRECISION" != "FALSE" ]; then
-  COMMAND += "--mixed_precision=$MIXED_PRECISION "
+  COMMAND="$COMMAND--mixed_precision=$MIXED_PRECISION "
 fi
 # --enable_xformers_memory_efficient_attention
 if [ "$ENABLE_XFORMERS_MEMORY_EFFICIENT_ATTENTION" = "TRUE" ]; then
-  COMMAND += "--enable_xformers_memory_efficient_attention "
+  COMMAND="$COMMAND--enable_xformers_memory_efficient_attention "
 fi
 # --resume_from_checkpoint
 if [ "$RESUME_FROM_CHECKPOINT" = "TRUE" ]; then
-  COMMAND += "--resume_from_checkpoint=$CHECKPOINT_PATH "
+  COMMAND="$COMMAND--resume_from_checkpoint=$RESUME_CHECKPOINT_PATH "
 fi
 # --checkpointing_steps
-COMMAND += "--checkpointing_steps=$CHECKPOINTING_STEPS "
+COMMAND="$COMMAND--checkpointing_steps=$CHECKPOINTING_STEPS "
 # --checkpoints_total_limit
-COMMAND += "--checkpoints_total_limit=$CHECKPOINTS_TOTAL_LIMIT "
+COMMAND="$COMMAND--checkpoints_total_limit=$CHECKPOINTS_TOTAL_LIMIT "
 # --noise_offset
-COMMAND += "--noise_offset=$NOISE_OFFSET "
+COMMAND="$COMMAND--noise_offset=$NOISE_OFFSET "
 
 # log command
-echo COMMAND
+echo $COMMAND
 
 # run command
-eval COMMAND
+eval $COMMAND
 
 
 # gen checkpoints
