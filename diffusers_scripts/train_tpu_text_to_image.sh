@@ -76,7 +76,7 @@ if [ "$ONLY_TRAIN" == "FALSE" ]; then
   pip install git+https://github.com/huggingface/diffusers
   cd "$HOME/diffusers/examples/text_to_image" || exit
   pip install -r requirements_flax.txt
-  pip install accelerate
+  # pip install accelerate
   pip install safetensors
   pip install omegaconf
   accelerate config
@@ -89,7 +89,7 @@ fi
 cd "$HOME/diffusers/examples/text_to_image" || exit
 
 # construct command
-COMMAND="accelerate launch train_text_to_image_flax.py "
+COMMAND="python train_text_to_image_flax.py "
 # --pretrained_model_name_or_path
 COMMAND="$COMMAND--pretrained_model_name_or_path=\"$MODEL_PATH\" "
 # --dataset_name
