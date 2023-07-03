@@ -47,9 +47,6 @@ export ADAM_EPSILON=1e-8
 export ALLOW_TF32="FALSE"
 export USE_EMA="FALSE"
 export MAX_GRAD_NORM=1
-export CHECKPOINTING_STEPS=10000
-export CHECKPOINTS_TOTAL_LIMIT=5
-export NOISE_OFFSET=0
 export RESUME_CHECKPOINT_PATH=""
 
 # default setting
@@ -155,12 +152,6 @@ fi
 if [ "$RESUME_FROM_CHECKPOINT" = "TRUE" ]; then
   COMMAND="$COMMAND--resume_from_checkpoint=$RESUME_CHECKPOINT_PATH "
 fi
-# --checkpointing_steps
-COMMAND="$COMMAND--checkpointing_steps=$CHECKPOINTING_STEPS "
-# --checkpoints_total_limit
-COMMAND="$COMMAND--checkpoints_total_limit=$CHECKPOINTS_TOTAL_LIMIT "
-# --noise_offset
-COMMAND="$COMMAND--noise_offset=$NOISE_OFFSET "
 
 # log command
 echo $COMMAND
