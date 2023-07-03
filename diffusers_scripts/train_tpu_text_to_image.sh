@@ -163,10 +163,7 @@ eval $COMMAND
 cd "$HOME"
 wget https://raw.githubusercontent.com/Eric-liucn/TPU_TRAIN_TOOL/main/convert_tools/convert_flax_pt.py -O convert_flax_pt.py
 
-python3 convert_flax_pt.py \
-	mode="fp" \
-	input="$OUTPUT_FLAX_PATH" \
-	output="$OUTPUT_PT_PATH"
+python3 convert_flax_pt.py fp "$OUTPUT_FLAX_PATH" "$OUTPUT_PT_PATH"
 
 # gen checkpoints
 cd "$HOME/diffusers/scripts" || exit
