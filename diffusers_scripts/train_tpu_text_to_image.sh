@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# wget https://raw.githubusercontent.com/Eric-liucn/TPU_TRAIN_TOOL/main/diffusers_scripts/train_tpu_text_to_image.sh -O train.sh && chmod +x train.sh
+# wget --no-cache https://raw.githubusercontent.com/Eric-liucn/TPU_TRAIN_TOOL/main/diffusers_scripts/train_tpu_text_to_image.sh -O train.sh && chmod +x train.sh
 
 # Check for --only-train argument
 ONLY_TRAIN="FALSE"
