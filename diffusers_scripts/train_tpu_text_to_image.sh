@@ -25,7 +25,7 @@ sudo apt-get update
 sudo apt-get install -y wget python3-venv git zip unzip
 
 # setting
-export MODEL_PATH="SillyL12324/chilloutmix_100ep"
+export MODEL_PATH="SillyL12324/chilloutmix_100ep_flax"
 export REMOTE_DATA_PATH="gs://aiforsure_ai/datasets/girls"
 export CHECKPOINT_NAME="chilloutmix_200ep_1e-4.safetensors"
 export LEARNING_RATE=1e-4
@@ -81,6 +81,7 @@ if [ "$ONLY_TRAIN" == "FALSE" ]; then
   python3 -m venv .env
   source .env/bin/activate
   pip install jax[tpu] -f https://storage.googleapis.com/jax-releases/libtpu_releases.html
+	pip install torch_xla
   pip install git+https://github.com/huggingface/diffusers
   cd "$HOME/diffusers/examples/text_to_image" || exit
   pip install -r requirements.txt
@@ -189,7 +190,7 @@ eval $COMMAND
 
 # get convert_flax_pt.py
 cd "$HOME"
-wget https://raw.githubusercontent.com/Eric-liucn/TPU_TRAIN_TOOL/main/convert_flax_pt.py
+wget https://raw.githubusercontent.com/Eric-liucn/TPU_TRAIN_TOOL/main/convert_tools/convert_flax_pt.py -O convert_flax_pt.py
 
 python3 convert_flax_pt.py \
 	mode="fp" \
