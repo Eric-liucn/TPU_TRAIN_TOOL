@@ -38,11 +38,7 @@ export RESUME_FROM_CHECKPOINT="FALSE"
 # unfrequent setting
 export RESOLUTION=512
 export TRAIN_BATCH_SIZE=8
-export GRADIENT_ACCUMULATION_STEPS=4
-export GRADIENT_CHECKPOINTING="FALSE"
 export SCALE_LR="TRUE"
-export LR_WARMUP_STEPS=0
-export SNR_GAMMA=5.0
 export USE_8BIT_ADAM="FALSE"
 export ADAM_BETA1=0.9
 export ADAM_BETA2=0.999
@@ -50,7 +46,6 @@ export ADAM_WEIGHT_DECAY=1e-2
 export ADAM_EPSILON=1e-8
 export ALLOW_TF32="FALSE"
 export USE_EMA="FALSE"
-export DATALOADER_NUM_WORKERS=4
 export MAX_GRAD_NORM=1
 export CHECKPOINTING_STEPS=10000
 export CHECKPOINTS_TOTAL_LIMIT=5
@@ -110,12 +105,6 @@ COMMAND="$COMMAND--resolution=$RESOLUTION "
 COMMAND="$COMMAND--train_batch_size=$TRAIN_BATCH_SIZE "
 # --num_train_epochs
 COMMAND="$COMMAND--num_train_epochs=$NUM_TRAIN_EPOCHS "
-# --gradient_accumulation_steps
-COMMAND="$COMMAND--gradient_accumulation_steps=$GRADIENT_ACCUMULATION_STEPS "
-# --gradient_checkpointing
-if [ "$GRADIENT_CHECKPOINTING" = "TRUE" ]; then
-  COMMAND="$COMMAND--gradient_checkpointing "
-fi
 # --learning_rate
 COMMAND="$COMMAND--learning_rate=$LEARNING_RATE "
 # --scale_lr
@@ -124,12 +113,6 @@ if [ "$SCALE_LR" = "TRUE" ]; then
 fi
 # --lr_scheduler
 COMMAND="$COMMAND--lr_scheduler=$LR_SCHEDULER "
-# --lr_warmup_steps
-COMMAND="$COMMAND--lr_warmup_steps=$LR_WARMUP_STEPS "
-# --snr_gamma
-if [ "$SNR_GAMMA" != "FALSE" ]; then
-  COMMAND="$COMMAND--snr_gamma=$SNR_GAMMA "
-fi
 # --use_8bit_adam
 if [ "$USE_8BIT_ADAM" = "TRUE" ]; then
   COMMAND="$COMMAND--use_8bit_adam "
@@ -142,8 +125,6 @@ fi
 if [ "$USE_EMA" = "TRUE" ]; then
   COMMAND="$COMMAND--use_ema "
 fi
-# --dataloader_num_workers
-COMMAND="$COMMAND--dataloader_num_workers=$DATALOADER_NUM_WORKERS "
 # --adam_beta1
 if [ "USE_8BIT_ADAM" = "TRUE" ]; then
   COMMAND="$COMMAND--adam_beta1=$ADAM_BETA1 "
