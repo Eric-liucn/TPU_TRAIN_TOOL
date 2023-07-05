@@ -94,11 +94,23 @@ def config_create_process():
         default="",
     ).ask()
 
+    # ask where to create project folder
+    # default path is user home dir + project_name
+    project_path = questionary.path(
+        "Where do you want to create the project folder?",
+        default=user_home_dir + "/" + project_name,
+        validate=lambda path: not os.path.exists(path),
+        message="The project folder already exists, please choose another path.",
+    ).ask()
+
+    # create project folder with parent dir
+    os.makedirs(project_path, exist_ok=True)
+
     # no matter which kind of train config user want to create, ask the path to store the train config created
-    # default path is user home dir + project_name_train_config.yaml
+    # default path is user home dir + project_name + train_config.yaml
     train_config_path = questionary.path(
-        "Where do you want to store the train config? (default: {}/train_config.yaml)".format(user_home_dir),
-        default=user_home_dir + "/{}_train_config.yaml".format(project_name),
+        "Where do you want to store the train config?",
+        default=user_home_dir + "/" + project_name + "/train_config.yaml",
     ).ask()
 
     # if train_config_type == "[1] [GPU] dreambooth-lora":
@@ -117,13 +129,20 @@ def start_training_process():
         default=user_home_dir + "/train_env",
     ).ask()
 
+    # ask where is the project folder
+    project_path = questionary.path(
+        "Where is the project folder?",
+        default=user_home_dir + "/project??",
+        validate=lambda path: os.path.exists(path),
+    ).ask()
+
     # ask the path of train config
     # default path is user home dir + train_config.yaml
     # check if the train config exist
     # if not exist, note user
     train_config_path = questionary.path(
-        "Where is the train config? (default: {}/train_config.yaml)".format(user_home_dir),
-        default=user_home_dir + "/train_config.yaml",
+        "Where is the train config? \n",
+        default=project_path + "/train_config.yaml",
         validate=lambda path: os.path.exists(path),
     ).ask()
 
