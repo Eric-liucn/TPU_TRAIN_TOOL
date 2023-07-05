@@ -135,28 +135,29 @@ def start_training_process():
     train_type = train_config["train_type"]
 
     # get train script url depend on train type
-    if train_type == "[GPU]dreambooth-lora":
+    # use requests download the train script to user home dir + train_scripts
+    # if folder not exists, create it
+    if train_type == "[GPU]dreambooth_lora":
         train_script_url = "https://raw.githubusercontent.com/huggingface/diffusers/main/examples/dreambooth/train_dreambooth_lora.py"
-    elif train_type == "dreambooth":
-        pass
-
-    # download the train script to /tmp/train.py
-    # if download failed, note user
-    try:
-        result = subprocess.run(["wget", train_script_url, "-O", "/tmp/train.py"])
-        if result.returncode != 0:
+        train_script_path = user_home_dir + "/train_scripts" + "/train_dreambooth_lora.py"
+        if not os.path.exists(user_home_dir + "/train_scripts"):
+            os.makedirs(user_home_dir + "/train_scripts")
+        response = requests.get(train_script_url)
+        if response.status_code == 200:
+            with open(train_script_path, "wb") as f:
+                f.write(response.content)
+        else:
             logging.error("download train script failed")
             exit(1)
-    except Exception as e:
-        logging.error("download train script failed")
-        logging.error(e)
-        exit(1)
+    elif train_type == "dreambooth":
+        pass
 
     # preview the command
     accelerate_executable_path = train_env_path + "/bin/accelerate"
     python_executable_path = train_env_path + "/bin/python"
-    if train_type == "[GPU]dreambooth-lora":
-        command = accelerate_executable_path + " launch /tmp/train.py " + " ".join(parse_train_config_to_args(train_config_path))
+    command = ""
+    if train_type == "[GPU]dreambooth_lora":
+        command = accelerate_executable_path + " launch" + train_script_path + " " + " ".join(parse_train_config_to_args(train_config_path))
     
     # print the command with pretty format
     # change line when a new argument is added
@@ -300,7 +301,6 @@ else:
             logging.error("test tpu failed")
             logging.error(e)
             exit(1)
-
 
 # setup env
 # @param env_path: the path of virtual env
@@ -473,7 +473,7 @@ def create_train_config_dreambooth_lora(project_name, train_config_type, train_c
             "constant",
             "constant_with_warmup"
         ],
-        default="constant_with_warmup"
+        default="constant"
     ).ask()
     config["lr_scheduler"] = lr_scheduler
 
@@ -537,9 +537,16 @@ def parse_train_config_to_args(train_config_path):
     # 2. if value is None, do nothing
     # 3. if value is no, do nothing
     # 4. for "validation_images", it value is a list, append "--validation_images=image1,image2,image3..."
+    # 5. skip keys: "project_name" and "train_type"
     args_list = []
     for key in args:
         value = args[key]
+        if value == "":
+            continue
+        if key == "project_name":
+            continue
+        if key == "train_type":
+            continue
         if value is None:
             continue
         if value == "no":
@@ -547,6 +554,8 @@ def parse_train_config_to_args(train_config_path):
         if value == False:
             continue
         if key == "validation_images":
+            if value == []:
+                continue
             args_list.append("--" + key + "=" + ",".join(value))
             continue
         if type(value) == bool:

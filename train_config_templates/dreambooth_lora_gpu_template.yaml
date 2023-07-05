@@ -61,13 +61,13 @@
 project_name: "dreambooth_lora"
 train_type: "[GPU]dreambooth_lora" # don't change this
 pretrained_model_name_or_path: "runwayml/stable-diffusion-v1-5"
-revision: "main"
-tokenizer_name: "runwayml/stable-diffusion-v1-5"
+revision: ""
+tokenizer_name: ""
 instance_data_dir: "$HOME/dreambooth_lora/data/instance"
 class_data_dir: "$HOME/dreambooth_lora/data/class"
 instance_prompt: "photo of a sks dog"
 class_prompt: "photo of a dog"
-validation_prompt: "photo of a sks dog on the ground"
+validation_prompt: ""
 num_validation_images: 0
 validation_epochs: 0
 with_prior_preservation: False
