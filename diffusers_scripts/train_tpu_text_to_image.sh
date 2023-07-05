@@ -73,6 +73,9 @@ if [ "$ONLY_TRAIN" == "FALSE" ]; then
   python3 -m venv .env
   source .env/bin/activate
   pip install jax[tpu] -f https://storage.googleapis.com/jax-releases/libtpu_releases.html
+  pip install https://storage.googleapis.com/tpu-pytorch/wheels/tpuvm/torch_xla-2.0-cp38-cp38-linux_x86_64.whl
+  pip install https://storage.googleapis.com/tpu-pytorch/wheels/tpuvm/torch-2.0-cp38-cp38-linux_x86_64.whl
+    pip install https://storage.googleapis.com/tpu-pytorch/wheels/tpuvm/torchvision-2.0-cp38-cp38-linux_x86_64.whl
   pip install git+https://github.com/huggingface/diffusers
   cd "$HOME/diffusers/examples/text_to_image" || exit
   pip install -r requirements_flax.txt
