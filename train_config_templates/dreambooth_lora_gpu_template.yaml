@@ -1,6 +1,7 @@
 # this is a template for the dreambooth_lora(GPU) train config
 # the values we need define:
 # project (required, type: str)
+# train_type (required, type: str)
 # pretrained_model_name_or_path (required, type: str)
 # revision (optional, type: str)
 # tokenizer_name (optional, type: str)
@@ -57,7 +58,8 @@
 # validation_images (optional, type: list of str)
 # class_labels_conditioning (optional, type: str, choices: "timesteps")
 
-project: "dreambooth_lora"
+project_name: "dreambooth_lora"
+train_type: "[GPU]dreambooth_lora" # don't change this
 pretrained_model_name_or_path: "runwayml/stable-diffusion-v1-5"
 revision: "main"
 tokenizer_name: "runwayml/stable-diffusion-v1-5"
