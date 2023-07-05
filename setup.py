@@ -232,6 +232,12 @@ if __name__ == "__main__":
             ],
         ).ask()
 
+        # if device == "[3] tpu":
+        # set cuda and python version to None
+        if device == "[3] tpu":
+            pytorch_version = None
+            cuda_version = None
+
         # if device == "[1] cpu" or device == "[2] gpu":
         # ask what pytorch version will be use
         if device == "[1] cpu" or device == "[2] gpu":
