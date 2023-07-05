@@ -233,6 +233,11 @@ def create_train_config_dreambooth_lora(project_name, train_config_type, train_c
     if train_config_type == "[1] [GPU] dreambooth-lora":
         config = load_yaml_from_url("https://raw.githubusercontent.com/Eric-liucn/TPU_TRAIN_TOOL/main/train_config_templates/dreambooth_lora_gpu_template.yaml")
     
+    # check if config is None
+    if config is None:
+        logging.error("load template from github failed")
+        exit(1)
+
     # ask user to input the config
     # ask pretrained_model_name_or_path, default is runwayml/stable-diffusion-v1-5
     # validate if it in xxx/xxx format or a path
@@ -458,7 +463,7 @@ if __name__ == "__main__":
         # default path is user home dir + project_name_train_config.yaml
         train_config_path = questionary.path(
             "Where do you want to store the train config? (default: {}/train_config.yaml)".format(user_home_dir),
-            default=user_home_dir + "{}_train_config.yaml".format(project_name),
+            default=user_home_dir + "/{}_train_config.yaml".format(project_name),
         ).ask()
 
         # if train_config_type == "[1] [GPU] dreambooth-lora":

@@ -1,0 +1,117 @@
+# this is a template for the dreambooth_lora(GPU) train config
+# the values we need define:
+# project (required, type: str)
+# pretrained_model_name_or_path (required, type: str)
+# revision (optional, type: str)
+# tokenizer_name (optional, type: str)
+# instance_data_dir (required, default: user home dir + project + /data/instance, type: str)
+# class_data_dir (required, default: user home dir + project + /data/class, type: str)
+# instance_prompt (required, type: str)
+# class_prompt (required, type: str)
+# validation_prompt (optional, type: str)
+# num_validation_images (optional, type: int)
+# validation_epochs (optional, type: int)
+# with_prior_preservation (optional, type: bool)
+# prior_loss_weight (optional, type: float, default: 1.0)
+# num_class_images (optional, type: int, default: 100)
+# output_dir (required, default: user home dir + project + /output, type: str)
+# seed (optional, type: int)
+# resolution (required, type: int, default: 512)
+# center_crop (optional, type: bool, default: False)
+# train_text_encoder (optional, type: bool, default: True)
+# train_batch_size (required, type: int, default: 4)
+# sample_batch_size (optional, type: int, default: 4)
+# num_train_epochs (required, type: int, default: 100)
+# max_train_steps (optional, type: int)
+# checkpointing_steps (optional, type: int, default: 2000)
+# checkpoints_total_limit (optional, type: int, default: 5)
+# resume_from_checkpoint (optional, type: bool, default: False)
+# gradient_accumulation_steps (optional, type: int, default: 1)
+# gradient_checkpointing (optional, type: bool, default: False)
+# learning_rate (required, type: float, default: 1e-4)
+# scale_lr (optional, type: bool, default: False)
+# lr_scheduler (required, type: str, default: constant, choices:"linear", "cosine", "cosine_with_restarts", "polynomial", "constant", "constant_with_warmup")
+# lr_warmup_steps (optional, type: int, default: 0)
+# lr_num_cycles (optional, type: int default: 1)
+# lr_power (optional, type: float, default: 1.0)
+# dataloader_num_workers (optional, type: int, default: 4)
+# use_8bit_adam (optional, type: bool, default: False)
+# adam_beta1 (optional, type: float, default: 0.9)
+# adam_beta2 (optional, type: float, default: 0.999)
+# adam_weight_decay (optional, type: float, default: 1e-2) 
+# adam_epsilon (optional, type: float, default: 1e-8)
+# max_grad_norm (optional, type: float, default: 1.0)
+# push_to_hub (optional, type: bool, default: False)
+# hub_token (optional, type: str)
+# hub_model_id (optional, type: str)
+# logging_dir (optional, type: str, default: user home dir + project + /logs)
+# allow_tf32 (optional, type: bool, default: False)
+# report_to (optional, type: str, default: wandb, choices: "wandb", "tensorboard")
+# mixed_precision (optional, type: str, default: "fp16", choices: "fp16", "bf16", "no")
+# prior_generation_precision (optional, type: str, default: "fp16", choices: "fp16", "bf16", "fp32", "no")
+# local_rank (optional, type: int, default: -1)
+# enable_xformers_memory_efficient_attention (optional, type: bool, default: False)
+# pre_compute_text_embeddings (optional, type: bool, default: False)
+# tokenizer_max_length (optional, type: int, default: None)
+# text_encoder_use_attention_mask (optional, type: bool, default: False)
+# validation_images (optional, type: list of str)
+# class_labels_conditioning (optional, type: str, choices: "timesteps")
+
+project: "dreambooth_lora"
+pretrained_model_name_or_path: "runwayml/stable-diffusion-v1-5"
+revision: "main"
+tokenizer_name: "runwayml/stable-diffusion-v1-5"
+instance_data_dir: "$HOME/dreambooth_lora/data/instance"
+class_data_dir: "$HOME/dreambooth_lora/data/class"
+instance_prompt: "photo of a sks dog"
+class_prompt: "photo of a dog"
+validation_prompt: "photo of a sks dog on the ground"
+num_validation_images: 0
+validation_epochs: 0
+with_prior_preservation: False
+prior_loss_weight: 1.0
+num_class_images: 100
+seed: 42
+resolution: 512
+center_crop: False
+train_text_encoder: True
+train_batch_size: 4
+sample_batch_size: 4
+num_train_epochs: 100
+max_train_steps: 0
+checkpointing_steps: 2000
+checkpoints_total_limit: 5
+resume_from_checkpoint: False
+gradient_accumulation_steps: 1
+gradient_checkpointing: False
+learning_rate: 1e-4
+scale_lr: False
+lr_scheduler: "constant"
+lr_warmup_steps: 0
+lr_num_cycles: 1
+lr_power: 1.0
+dataloader_num_workers: 4
+use_8bit_adam: False
+adam_beta1: 0.9
+adam_beta2: 0.999
+adam_weight_decay: 1e-2
+adam_epsilon: 1e-8
+max_grad_norm: 1.0
+push_to_hub: False
+hub_token: ""
+hub_model_id: ""
+logging_dir: ""
+allow_tf32: False
+report_to: None
+mixed_precision: "fp16"
+prior_generation_precision: "fp16"
+local_rank: -1
+enable_xformers_memory_efficient_attention: False
+pre_compute_text_embeddings: False
+tokenizer_max_length: None
+text_encoder_use_attention_mask: False
+validation_images: []
+class_labels_conditioning: None
+
+
+
