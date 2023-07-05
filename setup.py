@@ -549,10 +549,11 @@ def parse_train_config_to_args(train_config_path):
             continue
         if value is None:
             continue
-        if value == "no":
-            continue
         if value == False:
             continue
+        if key.startswith("adam_"):
+            if not config["use_8bit_adam"]:
+                continue
         if key == "validation_images":
             if value == []:
                 continue
